@@ -47,7 +47,7 @@ select {
 			}()
 			fmt.Println(index, "执行完成")
 		}(i)
-		wg.Add(1)
+		wg.Add(1)3
 	}
 	fmt.Println(runtime.NumGoroutine());
 	wg.Wait()
