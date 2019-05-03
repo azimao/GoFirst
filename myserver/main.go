@@ -3,29 +3,9 @@ package main
 import (
 	"fmt"
 	"net"
-	"regexp"
 	"runtime"
 	"time"
 )
-
-func response() string {
-	str := `HTTP/1.1 200 OK
-Server: myserver
-Content-Type: text/html
-
-this is body
-`
-	return str
-}
-
-func GetRequestPath(rq string) string {
-	r := regexp.MustCompile(`^GET\s(.*?)\sHTTP`)
-	if r.MatchString(rq) {
-		return r.FindStringSubmatch(rq)[1]
-	} else {
-		return "/"
-	}
-}
 
 func main() {
 	list, err := net.Listen("tcp", "127.0.0.1:8099")
@@ -38,7 +18,7 @@ func main() {
 	go func() {
 		for {
 			fmt.Printf("当前任务数:%d\n", runtime.NumGoroutine())
-			time.Sleep(time.Second * 2)
+			time.Sleep(time.Second * 5)
 		}
 	}()
 	for {
@@ -60,7 +40,7 @@ func main() {
 			if GetRequestPath(string(buf[:n])) == "/delay" {
 				time.Sleep(time.Second * 5)
 			}
-			c.Write([]byte(response()))
+			c.Write([]byte(ReadHtml(GetRequestPath(string(buf[:n])))))
 		}(client)
 	}
 
