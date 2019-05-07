@@ -143,3 +143,12 @@ select {
     wg.Wait()
     fmt.Println("读取完成")
 ```
+
+### Lesson33
+```bash
+#  ...string  不定参数   类方法
+func (this *MyController) GetParam(key string, defValue ...string) string {
+	return ""
+}
+
+```
